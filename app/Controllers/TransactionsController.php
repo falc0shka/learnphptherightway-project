@@ -11,16 +11,21 @@ class TransactionsController
 {
     public function transactions(): View
     {
-      return View::make('transactions',
-      [
-        'transactions' => Transactions::getTransactions(),
-        'totals' => Transactions::calculateTotals(),
-      ]);
+        $transactionsModel = new Transactions();
+
+        return View::make('transactions',
+        [
+          'transactions' => $transactionsModel->getTransactions(),
+          'totals' => $transactionsModel->calculateTotals(),
+        ]);
     }
     public function upload(): void
     {
+        $transactionsModel = new Transactions();
+
         header('Location: /transactions');
-        Transactions::uploadTransactions($_FILES['transactions']["tmp_name"]);
+        
+        $transactionsModel->uploadTransactions($_FILES['transactions']["tmp_name"]);
         exit;
     }
 }
